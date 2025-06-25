@@ -535,6 +535,381 @@ reportsRoutes,        // Analytics and reporting
             <strong>Route Organization:</strong> Each feature has its own route file in /routes/api/ with corresponding controllers for business logic separation.
         </div>
     </div>
+    
+    <div class="slide">
+    <div class="slide-number">API Reference</div>
+    <h2>📚 Complete API Quick Reference</h2>
+    
+    <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; max-height: 500px; overflow-y: auto; padding: 1rem; margin: 1rem 0; font-family: 'Monaco', monospace;">
+        
+        <!-- ADMIN ROUTES SECTION -->
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="color: #ff6b6b; margin-bottom: 1rem; font-size: 1.1rem;">🔒 ADMIN ROUTES (JWT Token Required)</h3>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/admin/login</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Admin authentication & JWT token generation. Validates username/password against bcrypt hash and returns week-long JWT token.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/admin/reports</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Get latest scheduled billing reports. Returns comprehensive billing data across all shops with subscription counts and billing schedules.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/admin/reports</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Generate new admin billing report. Triggers createAdminReport() to analyze all shops and create comprehensive billing status report.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/admin/billing</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Trigger billing for specific billing report. Executes billSubscriptions() for all contract IDs in the specified billing report.
+                </div>
+            </details>
+        </div>
+
+        <!-- SUBSCRIPTION ROUTES SECTION -->
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="color: #98d982; margin-bottom: 1rem; font-size: 1.1rem;">💳 SUBSCRIPTION ROUTES (Shopify OAuth Required)</h3>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/subscriptions</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Get all subscriptions for authenticated shop. Returns complete subscription data including customer info, billing status, and line items.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/subscriptions</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Create new subscription contract. Creates Shopify subscription contract and stores enhanced metadata in MongoDB.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/subscriptions</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Update subscription status (activate/cancel). Calls appropriate controller functions and syncs with Shopify contract status.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/subscriptions/sync</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Sync/migrate subscriptions from external source. Initiates migrateSubscriptions() process for data migration.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/subscriptions/sellingplans</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Get all selling plans for shop. Returns billing/delivery intervals and connected product information.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/subscriptions/sellingplans</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Create new selling plan group. Creates Shopify selling plan with specified billing/delivery intervals.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/subscriptions/sellingplans/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Attach/detach products from selling plan. Updates which products are available for subscription with this billing interval.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">DELETE /api/subscriptions/sellingplans/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Delete selling plan group. Removes selling plan from Shopify and updates database records.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/subscriptions/tiers</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Create new membership tier. Defines access levels and product associations for subscription tiers.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/subscriptions/tiers/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Update tier configuration. Modifies tier properties including connected products and access restrictions.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">DELETE /api/subscriptions/tiers/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Delete membership tier. Removes tier from database and updates associated subscription configurations.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/subscriptions/addresses</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Update subscription shipping address. Modifies delivery address for subscription orders via Shopify API.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/subscriptions/billingInterval</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Change billing frequency (weekly/monthly/yearly). Updates billing interval and recalculates next billing date.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/subscriptions/discount</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Apply discount code to subscription. Validates and applies discount codes to subscription contracts.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/subscriptions/chargeDate</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Update next billing date. Modifies when the subscription will be charged next, maintaining billing interval.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/subscriptions/paymentMethods</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Send payment method update email to customer. Triggers Shopify email for payment method updates.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/subscriptions/product</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Swap subscription product/variant. Changes subscription to different product while maintaining billing schedule.
+                </div>
+            </details>
+        </div>
+
+        <!-- CUSTOMER ROUTES SECTION -->
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="color: #ffd700; margin-bottom: 1rem; font-size: 1.1rem;">👥 CUSTOMER ROUTES (Shopify OAuth Required)</h3>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/customers/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Get customer payment methods & addresses. Returns customer payment instruments and shipping addresses via GraphQL.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/customers/:id/magicLink</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Generate magic link for customer portal access. Creates 24-hour JWT token for passwordless customer portal login.
+                </div>
+            </details>
+        </div>
+
+        <!-- PRODUCT & TIER ROUTES SECTION -->
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="color: #a855f7; margin-bottom: 1rem; font-size: 1.1rem;">🛍️ PRODUCT & TIER ROUTES (Shopify OAuth Required)</h3>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/products</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Get all store products (paginated, 250 per batch). Retrieves complete product catalog with variants and pricing.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/tiers</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Get all membership tiers for shop. Returns tier configurations with product associations and selling plans.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/tiers</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Create new membership tier. Establishes new subscription tier with product and access level configuration.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/tiers/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Update tier products & selling plans. Modifies tier configuration and associated product relationships.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">DELETE /api/tiers/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Delete membership tier. Removes tier configuration and updates dependent subscription settings.
+                </div>
+            </details>
+        </div>
+
+        <!-- BUNDLE ROUTES SECTION -->
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="color: #06b6d4; margin-bottom: 1rem; font-size: 1.1rem;">📦 BUNDLE ROUTES (Shopify OAuth Required)</h3>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/bundles</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Get all product bundles for shop. Returns bundle configurations with product selections and variants.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/bundles</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Create new product bundle. Establishes product groupings with selection rules and variant mappings.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/bundles/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Update bundle configuration. Modifies product selections and bundle rules for subscription orders.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">DELETE /api/bundles/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Delete product bundle. Removes bundle configuration and updates associated subscription settings.
+                </div>
+            </details>
+        </div>
+
+        <!-- EVENT MANAGEMENT ROUTES SECTION -->
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="color: #f59e0b; margin-bottom: 1rem; font-size: 1.1rem;">🎲 EVENT MANAGEMENT ROUTES (Shopify OAuth Required)</h3>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/raffles</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Get all raffles for shop. Returns raffle configurations with ticket sales, entries, and winner information.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/raffles</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Create new raffle with Stripe integration. Sets up ticket-based raffle with payment processing and winner selection.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/raffles/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Update raffle details & status. Modifies raffle settings, dates, and manages raffle lifecycle.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">DELETE /api/raffles/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Delete raffle. Removes raffle configuration and associated Stripe products/prices.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/auctions</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Get all auctions for shop. Returns auction data with bidding history, current prices, and winner information.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/auctions</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Create new auction with bidding system. Establishes real-time auction with reserve pricing and buy-now options.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/auctions/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Update auction details & status. Modifies auction settings and manages auction lifecycle and bidding.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">DELETE /api/auctions/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Delete auction. Removes auction configuration and associated payment processing setup.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/fundraisers</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Get all fundraisers for shop. Returns fundraiser data with goal tracking, donor information, and progress.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/fundraisers</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Create new fundraiser with goal tracking. Sets up donation-based fundraising with preset and custom amounts.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/fundraisers/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Update fundraiser details & status. Modifies fundraiser goals, descriptions, and manages fundraiser lifecycle.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">DELETE /api/fundraisers/:id</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Delete fundraiser. Removes fundraiser configuration and associated donation processing setup.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/fundraisers/:id/donations</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Add manual donation to fundraiser. Allows admin to manually record donations from external sources.
+                </div>
+            </details>
+        </div>
+
+        <!-- SCHEDULED ORDERS & SETTINGS SECTION -->
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="color: #10b981; margin-bottom: 1rem; font-size: 1.1rem;">⚙️ SYSTEM CONFIGURATION ROUTES (Shopify OAuth Required)</h3>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">GET /api/scheduledOrders</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Get all scheduled orders for shop. Returns future order scheduling with products and delivery dates.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">POST /api/scheduledOrders</summary>
+                <div style="margin-top: 0.5rem; padding-left: 1rem; color: #e0e0e0; font-size: 0.9rem;">
+                    Create new scheduled order. Sets up future order delivery with specific products and timing.
+                </div>
+            </details>
+            
+            <details style="margin-bottom: 0.5rem; background: #1a1a1a; border-radius: 4px; padding: 0.5rem;">
+                <summary style="cursor: pointer; color: #58a6ff; font-weight: bold;">PUT /api/scheduledOrders/:id</summary>
+                </details>
+                </div>
+                </div>
 
     <!-- Slide 7: Subscription System -->
     <div class="slide">
@@ -846,7 +1221,7 @@ return ( <Page title="Subscription Management"> <Layout> {subscriptions.map(sub 
     </div>
 
     <!-- Slide 12: Development Workflow -->
-    <div class="slide">
+    <!-- <div class="slide">
         <div class="slide-number">12 / 15</div>
         <h2>🛠️ Development Setup</h2>
         
@@ -877,10 +1252,10 @@ MONGODB_URI=mongodb://localhost:27017/ua-master-app SHOPIFY_API_KEY_STORE1=your_
         <div class="warning-box">
             <strong>Security:</strong> Never commit .env files. Each store needs separate API credentials for multi-tenant isolation.
         </div>
-    </div>
+    </div> -->
 
     <!-- Slide 13: Testing Strategy -->
-    <div class="slide">
+    <!-- <div class="slide">
         <div class="slide-number">13 / 15</div>
         <h2>🧪 Testing & Debugging</h2>
         
@@ -935,7 +1310,7 @@ console.log('PRE SAVE - Subscription update for shop:', this.shop);
         <div class="info-box">
             <strong>Common Issues:</strong> Multi-store credential conflicts, webhook duplication, session storage issues, and MongoDB connection limits in development.
         </div>
-    </div>
+    </div> -->
 
     <!-- Slide 14: Deployment & Production -->
     <div class="slide">
