@@ -1,0 +1,1215 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Membership Zen Master App - Developer Onboarding</title>    <link rel="icon" href="https://cdn.shopify.com/s/files/applications/3f6cfc3d684b404678641a3da095912f_250x250.png?1710863562" type="image/x-icon">
+<style> * { margin: 0; padding: 0; box-sizing: border-box; }
+   body {
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        background: #1a1a1a;
+        color: #e0e0e0;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    .container {
+        min-height: 100vh;
+        position: relative;
+    }
+
+    .slide {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 3rem 2rem;
+        position: relative;
+        background: #1e1e1e;
+        margin-bottom: 2rem;
+        border-radius: 15px;
+        border: 1px solid #333;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .slide:nth-child(even) {
+        background: #252525;
+    }
+
+    h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #61dafb;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-family: 'Arial', sans-serif;
+    }
+
+    h2 {
+        font-size: 2.2rem;
+        color: #98d982;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #98d982;
+        padding-bottom: 0.5rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        color: #ffd700;
+        margin-bottom: 1rem;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        color: #b0b0b0;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .code-block {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        overflow-x: auto;
+        font-family: 'Monaco', monospace;
+        position: relative;
+    }
+
+    .code-block::before {
+        content: attr(data-lang);
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+        background: #58a6ff;
+        color: white;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+    }
+
+    .architecture-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .component-box {
+        background: #2d2d2d;
+        border: 1px solid #444;
+        border-radius: 10px;
+        padding: 1.5rem;
+        transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .component-box:hover {
+        transform: translateY(-2px);
+        border-color: #61dafb;
+    }
+
+    .tech-tag {
+        background: #58a6ff;
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.9rem;
+        margin: 0.2rem;
+        display: inline-block;
+    }
+
+    .file-tree {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 1.5rem;
+        font-family: 'Monaco', monospace;
+        margin: 1rem 0;
+    }
+
+    .file-tree .folder {
+        color: #ffd700;
+        font-weight: bold;
+    }
+
+    .file-tree .file {
+        color: #61dafb;
+    }
+
+    .flow-diagram {
+        background: #2d2d2d;
+        border: 1px solid #444;
+        border-radius: 10px;
+        padding: 2rem;
+        margin: 1.5rem 0;
+        text-align: center;
+    }
+
+    .flow-step {
+        background: #0d1117;
+        border: 1px solid #58a6ff;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 0.5rem;
+        display: inline-block;
+        min-width: 150px;
+    }
+
+    .api-endpoint {
+        background: #1a3d1a;
+        border-left: 4px solid #98d982;
+        padding: 1rem;
+        margin: 0.5rem 0;
+        border-radius: 0 8px 8px 0;
+    }
+
+    .warning-box {
+        background: #3d1a1a;
+        border-left: 4px solid #ff6b6b;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0 8px 8px 0;
+    }
+
+    .info-box {
+        background: #1a1a3d;
+        border-left: 4px solid #4dabf7;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0 8px 8px 0;
+    }
+
+    .data-model {
+        background: #2d2d2d;
+        border: 1px solid #444;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .navigation {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 1000;
+    }
+
+    .nav-button {
+        background: #58a6ff;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        margin: 0.2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        font-family: 'Monaco', monospace;
+    }
+
+    .nav-button:hover {
+        background: #4dabf7;
+        transform: scale(1.05);
+    }
+
+    .slide-number {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(88, 166, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        color: #61dafb;
+    }
+
+    .config-example {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+        font-size: 0.9rem;
+    }
+
+    .highlight {
+        background: #ffd70033;
+        padding: 0.1rem 0.3rem;
+        border-radius: 3px;
+    }
+
+    @media (max-width: 768px) {
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.8rem; }
+        .slide { padding: 2rem 1rem; }
+        .architecture-grid { grid-template-columns: 1fr; }
+    }
+
+    .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: #58a6ff;
+        transition: width 0.3s ease;
+        z-index: 1000;
+    }
+
+    .terminal {
+        background: #000;
+        color: #00ff00;
+        border: 1px solid #333;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+        font-family: 'Monaco', monospace;
+    }
+
+    .terminal::before {
+        content: "$ ";
+        color: #00ff00;
+    }
+</style>
+</head> <body> <div class="container"> <!-- Slide 1: Welcome & Overview --> <div class="slide"> <div class="slide-number">1 / 15</div> <h1>Membership Zen Master App</h1> <p class="subtitle">Developer Onboarding & Technical Architecture Guide</p>
+        <div class="info-box">
+            <h3>What You'll Learn</h3>
+            <p>• Complete application architecture and design patterns<br>
+               • Multi-tenant system implementation<br>
+               • Shopify integration patterns<br>
+               • Database schema and data flow<br>
+               • API design and authentication<br>
+               • Development workflow and best practices</p>
+        </div>
+
+        <div class="terminal">
+            git clone https://github.com/your-org/ua-master-app.git
+        </div>
+    </div>
+
+    <!-- Slide 2: Application Flow Overview -->
+    <div class="slide">
+        <div class="slide-number">2 / 15</div>
+        <h2>🔄 Complete Application Flow</h2>
+        
+        <div class="flow-diagram" style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                <div class="flow-step" style="background: #2d4a2d; border-color: #4ade80;">
+                    <strong>1. Admin Setup</strong><br>
+                    Creates membership products & bundles in admin dashboard
+                </div>
+                <div class="flow-step" style="background: #2d4a2d; border-color: #4ade80;">
+                    <strong>2. Auto Management</strong><br>
+                    App automatically manages inventory & bundle configurations
+                </div>
+                <div class="flow-step" style="background: #4a2d4a; border-color: #a855f7;">
+                    <strong>3. Customer Order</strong><br>
+                    Order created in online store or admin
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 1rem 0;">
+                <div style="font-size: 2rem; color: #61dafb;">⬇️</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                <div class="flow-step" style="background: #1a3d4a; border-color: #06b6d4;">
+                    <strong>4. Subscription Creation</strong><br>
+                    Created in Shopify + stored in MongoDB with enhanced data
+                </div>
+                <div class="flow-step" style="background: #4a3d1a; border-color: #eab308;">
+                    <strong>5. Member Ecosystem</strong><br>
+                    Subscriber enters member ecosystem with full access
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 1rem 0;">
+                <div style="font-size: 2rem; color: #61dafb;">⬇️</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                <div class="flow-step" style="background: #3d1a1a; border-color: #ef4444;">
+                    <strong>6. Tools Available</strong><br>
+                    Member experience is managed by admin app with tools and software
+                </div>
+                <div class="flow-step" style="background: #1a1a3d; border-color: #3b82f6;">
+                    <strong>7. Portal Management</strong><br>
+                    Member manages subscription via customer portal
+                </div>
+                <div class="flow-step" style="background: #2d4a2d; border-color: #10b981;">
+                    <strong>8. Automated Billing</strong><br>
+                    Subscription billed by app at configured intervals
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 1rem 0;">
+                <div style="font-size: 2rem; color: #61dafb;">⬇️ ⬆️</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+                <div class="flow-step" style="background: #4a4a1a; border-color: #f59e0b; padding: 1.5rem;">
+                    <strong>9. Two-Way Sync</strong><br>
+                    App maintains data sync via webhooks<br>
+                    <span style="font-size: 0.9rem; opacity: 0.8;">Keeps subscription data synchronized between Shopify & MongoDB</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="architecture-grid" style="margin-top: 3rem;">
+            <div class="component-box">
+                <h3>🔧 Admin Tools</h3>
+                <p>• Product & bundle creation<br>• Tier management<br>• Inventory automation<br>• Analytics & reporting</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>👥 Member Ecosystem</h3>
+                <p>• Subscription management<br>• Tier-based access control<br>• Event participation<br>• Customer portal</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>🔄 Automation</h3>
+                <p>• Inventory synchronization<br>• Billing cycle management<br>• Webhook processing<br>• Data consistency</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Project Structure -->
+    <div class="slide">
+        <div class="slide-number">2 / 15</div>
+        <h2>🗂️ Project Structure</h2>
+        
+        <div class="file-tree">
+<span class="folder">Membership Zen Master App/</span> ├── <span class="folder">web/</span> # Backend application │ ├── <span class="folder">controllers/</span> # Business logic controllers │ ├── <span class="folder">cron/</span> # Scheduled jobs │ ├── <span class="folder">db/mongo/models/</span> # Database models │ ├── <span class="folder">frontend/</span> # React frontend │ ├── <span class="folder">helpers/</span> # Utility functions │ ├── <span class="folder">routes/api/</span> # API route definitions │ ├── <span class="file">index.js</span> # Main server entry point │ └── <span class="file">shopify.js</span> # Shopify configuration ├── <span class="folder">extensions/</span> # Shopify theme extensions ├── <span class="file">.env.</span> # Environment configs (15+ stores) ├── <span class="file">shopify.app..toml</span> # Store-specific app configs └── <span class="file">package.json</span> # Dependencies </div>
+
+        <div class="warning-box">
+            <strong>Important:</strong> Each store has its own .env file and shopify.app.toml configuration. Never mix store credentials!
+        </div>
+    </div>
+
+    <!-- Slide 4: Multi-Tenant Architecture -->
+    <div class="slide">
+        <div class="slide-number">4 / 15</div>
+        <h2>🏢 Multi-Tenant Architecture</h2>
+        
+        <div class="flow-diagram">
+            <div class="flow-step">Request Comes In</div>
+            <div class="flow-step">Middleware Extracts Shop</div>
+            <div class="flow-step">Creates Shop-Specific Shopify App</div>
+            <div class="flow-step">Routes to Handler</div>
+        </div>
+
+        <div class="code-block" data-lang="javascript">
+// Multi-store middleware implementation const createShopifyApp = (shop) => { return shopifyApp({ api: { apiVersion: LATEST_API_VERSION, restResources, apiKey: process.env[SHOPIFY_API_KEY_${shop}], apiSecretKey: process.env[SHOPIFY_API_SECRET_${shop}], }, sessionStorage: new MongoDBSessionStorage( process.env.MONGODB_URI, 'uncommon-assets' ), }); }
+
+app.use(createMultistoreMiddleware(createShopifyApp)); </div>
+
+        <div class="info-box">
+            <strong>Key Concept:</strong> Each store gets its own Shopify app instance with isolated credentials and session storage. Data isolation is enforced at the database level using shop domains.
+        </div>
+    </div>
+
+    <!-- Slide 4: Database Models -->
+    <div class="slide">
+        <div class="slide-number">4 / 15</div>
+        <h2>🗄️ Database Schema</h2>
+        
+        <div class="architecture-grid">
+            <div class="data-model">
+                <h3>Core Models</h3>
+                <div class="tech-tag">Subscription</div>
+                <div class="tech-tag">User</div>
+                <div class="tech-tag">Tier</div>
+                <div class="tech-tag">Bundle</div>
+            </div>
+            
+            <div class="data-model">
+                <h3>Event Models</h3>
+                <div class="tech-tag">Raffle</div>
+                <div class="tech-tag">Auction</div>
+                <div class="tech-tag">Fundraiser</div>
+            </div>
+            
+            <div class="data-model">
+                <h3>System Models</h3>
+                <div class="tech-tag">ScheduledBilling</div>
+                <div class="tech-tag">WebhookReq</div>
+                <div class="tech-tag">Admin</div>
+            </div>
+        </div>
+
+        <div class="code-block" data-lang="javascript">
+// Example: Subscription Model Structure
+const SubscriptionSchema = new Schema({
+shop: { type: String, required: true },           // Multi-tenant isolation
+customer: { type: Object, required: true },       // Shopify customer data
+contractId: { type: String, required: true },     // Shopify subscription contract
+status: { type: String, required: true },         // ACTIVE, PAUSED, CANCELLED
+nextBillingDate: { type: Date },
+lineItems: { type: Array, required: true },       // Products in subscription
+paymentMethod: { type: Object, required: true },  // Stripe payment method
+events: [{                                         // Audit trail
+name: { type: String, required: true },
+date: { type: Date, required: true },
+data: { type: Object, required: true }
+}]
+});
+
+// Critical: Shop-based indexing for performance SubscriptionSchema.index({ shop: 1, _id: 1, updatedAt: 1 }); </div> </div>
+
+    <!-- Slide 5: Authentication Flow -->
+    <div class="slide">
+        <div class="slide-number">5 / 15</div>
+        <h2>🔐 Authentication Architecture</h2>
+        
+        <div class="architecture-grid">
+            <div class="component-box">
+                <h3>Admin Dashboard</h3>
+                <p><span class="highlight">Shopify OAuth</span> → Session validation → Protected routes</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>Customer Portal</h3>
+                <p><span class="highlight">Magic Links (JWT)</span> → HMAC validation → Proxy routes</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>Admin Panel</h3>
+                <p><span class="highlight">JWT Tokens</span> → bcrypt verification → Admin routes</p>
+            </div>
+        </div>
+
+        <div class="code-block" data-lang="javascript">
+// Magic Link Authentication for Customer Portal
+const authenticateCustomer = async (req, res, next) => {
+try {
+const hashedId = req?.query?.magic;
+if (hashedId) {
+const decodedCustomer = jwt.verify(hashedId, process.env.JWT_SECRET);
+const magicData = JSON.parse(decodedCustomer?.data);
+req.query.shop_id = magicData.shop;
+req.query.customer_id = magicData.customerId;
+}
+
+// Fallback to HMAC validation
+const shopName = req.query.shop;
+const thisUser = await User.findOne({ shop: shopName });
+
+if (!queryHasValidSignature(req.query, thisUser.apiSecret) && !magicData) {
+  return res.status(403).json({ errorMessage: 'Invalid Request' });
+}
+
+next();
+} catch (error) { return res.status(401).json({ errorMessage: 'Invalid Request' }); } }; </div> </div>
+
+    <!-- Slide 6: API Architecture -->
+    <div class="slide">
+        <div class="slide-number">6 / 15</div>
+        <h2>🔌 API Design Patterns</h2>
+        
+        <div class="api-endpoint">
+            <strong>Protected Routes:</strong> /api/* (Requires Shopify authentication)
+        </div>
+        
+        <div class="api-endpoint">
+            <strong>Public Routes:</strong> /api/proxy/* (Customer portal with HMAC/JWT)
+        </div>
+        
+        <div class="api-endpoint">
+            <strong>Webhooks:</strong> /api/webhooks (Shopify) | /api/stripe/* (Payment events)
+        </div>
+
+        <div class="code-block" data-lang="javascript">
+// API Route Structure
+app.use("/api",
+useShopifyApp((shopifyApp) => shopifyApp.validateAuthenticatedSession()),
+async (req, res, next) => await shopInDb(req, res, next),  // Verify shop in DB
+[
+subscriptionRoutes,    // CRUD operations for subscriptions
+raffleRoutes,         // Raffle management
+auctionRoutes,        // Auction management
+customerRoutes,       // Customer operations
+reportsRoutes,        // Analytics and reporting
+// ... other protected routes
+]
+);
+
+// Public proxy routes for customer portal app.use("/api/proxy", async (req, res, next) => { // Handle magic link auth or HMAC validation // Load auction templates dynamically // Serve customer portal content }, [proxyRoutes] ); </div>
+
+        <div class="info-box">
+            <strong>Route Organization:</strong> Each feature has its own route file in /routes/api/ with corresponding controllers for business logic separation.
+        </div>
+    </div>
+
+    <!-- Slide 7: Subscription System -->
+    <div class="slide">
+        <div class="slide-number">7 / 15</div>
+        <h2>💳 Subscription Management Flow</h2>
+        
+        <div class="flow-diagram">
+            <div class="flow-step">Customer Places Order</div>
+            <div class="flow-step">App Creates Subscription Contract</div>
+            <div class="flow-step">Store Additional Data in MongoDB</div>
+            <div class="flow-step">Cron Job Triggers Shopify Billing</div>
+        </div>
+
+        <div class="code-block" data-lang="javascript">
+// Subscription Creation Process (triggered after order)
+async function createSubscriptionFromOrder(orderData) {
+// 1. Create Shopify subscription contract using Admin API
+const contract = await shopify.rest.SubscriptionContract.save({
+session,
+customer_id: orderData.customer.id,
+next_billing_date: calculateNextBillingDate(),
+billing_policy: {
+interval: billingInterval,         // WEEK, MONTH, YEAR
+interval_count: billingIntervalCount
+},
+delivery_policy: {
+interval: deliveryInterval,
+interval_count: deliveryIntervalCount
+},
+lines: orderData.line_items.map(item => ({
+product_id: item.product_id,
+variant_id: item.variant_id,
+quantity: item.quantity,
+current_price: item.price
+}))
+});
+
+// 2. Store enhanced data in MongoDB (Shopify contract has limitations)
+const subscription = new Subscription({
+shop: shopDomain,
+contractId: contract.id,
+customer: orderData.customer,
+
+// Billing configuration
+billingInterval: billingInterval,
+billingIntervalCount: billingIntervalCount,
+deliveryInterval: deliveryInterval, 
+deliveryIntervalCount: deliveryIntervalCount,
+nextBillingDate: contract.next_billing_date,
+
+// Additional metadata not stored in Shopify
+originOrderId: orderData.id,
+originOrderNumber: orderData.order_number,
+affiliateId: orderData.note_attributes?.affiliate_id,
+discount: orderData.discount_codes[0] || null,
+
+// Enhanced line items with our custom data
+lineItems: orderData.line_items.map(item => ({
+  ...item,
+  subscription_tier: determineTier(item.product_id),
+  custom_attributes: extractCustomAttributes(item)
+})),
+
+// Audit trail
+events: [{
+  name: 'SUBSCRIPTION_CREATED',
+  date: new Date(),
+  data: { orderId: orderData.id, contractId: contract.id }
+}],
+
+status: 'ACTIVE'
+});
+
+await subscription.save();
+
+return { contract, subscription }; } </div>
+
+        <div class="info-box">
+            <strong>Key Architecture:</strong> We use Shopify's native subscription contracts for billing automation, but store all business logic and enhanced metadata in MongoDB for flexibility and complex queries.
+        </div>
+
+        <div class="code-block" data-lang="javascript">
+// Cron Job: Automated Billing via Shopify
+export async function billSubscriptions(filter = {}) {
+const subscriptionsToBill = await Subscription.find({
+status: 'ACTIVE',
+nextBillingDate: { $lte: new Date() },
+failedLastBilling: { $ne: true },
+...filter
+});
+
+for (const subscription of subscriptionsToBill) {
+try {
+// 1. Trigger billing through Shopify Subscription API
+const billingAttempt = await shopify.rest.SubscriptionBillingAttempt.save({
+session,
+subscription_contract_id: subscription.contractId,
+billing_cycle_index: subscription.orders.length + 1
+});
+
+  // 2. Shopify automatically creates order and charges customer
+  // 3. We receive webhook notification when order is created
+  
+  // 4. Update our MongoDB record with billing attempt
+  subscription.events.push({
+    name: 'BILLING_TRIGGERED',
+    date: new Date(),
+    data: { 
+      billingAttemptId: billingAttempt.id,
+      billingCycle: subscription.orders.length + 1
+    }
+  });
+  
+  // 5. Calculate next billing date
+  subscription.nextBillingDate = calculateNextBillingDate(
+    subscription.billingInterval,
+    subscription.billingIntervalCount
+  );
+  
+  await subscription.save();
+  
+} catch (error) {
+  // Handle billing failures
+  subscription.failedLastBilling = true;
+  subscription.events.push({
+    name: 'BILLING_FAILED',
+    date: new Date(),
+    data: { error: error.message }
+  });
+  
+  await subscription.save();
+  console.error(`Billing failed for subscription ${subscription._id}:`, error);
+}
+} } </div>
+
+        <div class="warning-box">
+            <strong>Critical:</strong> We rely on Shopify webhooks to confirm successful billing. Always sync between Shopify contract status and our MongoDB records. The app triggers billing, but Shopify handles payment processing.
+        </div>
+    </div>
+
+    <!-- Slide 8: Event Management (Raffles/Auctions) -->
+    <div class="slide">
+        <div class="slide-number">8 / 15</div>
+        <h2>🎲 Event Management System</h2>
+        
+        <div class="architecture-grid">
+            <div class="component-box">
+                <h3>Raffles</h3>
+                <p>• Ticket-based system<br>• Limited inventory<br>• Automated winner selection<br>• Stripe checkout integration</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>Auctions</h3>
+                <p>• Real-time bidding<br>• Reserve pricing<br>• Buy-now options<br>• Winner determination</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>Fundraisers</h3>
+                <p>• Goal tracking<br>• Donor management<br>• Preset/custom amounts<br>• Progress visualization</p>
+            </div>
+        </div>
+
+        <div class="code-block" data-lang="javascript">
+// Event Checkout Flow
+async function createRaffleCheckout({ shop, priceId, raffleId }) {
+const raffle = await Raffle.findById(raffleId);
+
+// Check availability
+const ticketsAvailable = (raffle.totalTickets - raffle.entries.length) >= 1;
+const isWithinDateRange = new Date() >= new Date(raffle.startDate) &&
+new Date() <= new Date(raffle.endDate);
+
+if (!ticketsAvailable || !isWithinDateRange) {
+throw new Error('Raffle not available');
+}
+
+// Create Stripe checkout session const session = await stripe.checkout.sessions.create({ payment_method_types: ['card'], line_items: [{ price: priceId, quantity: 1 }], metadata: { raffleId, shop }, success_url: ${shop}/pages/raffle-success, cancel_url: ${shop}/pages/raffle-cancel, });
+
+return session.url; } </div> </div>
+
+    <!-- Slide 9: Automated Systems (Cron Jobs) -->
+    <div class="slide">
+        <div class="slide-number">9 / 15</div>
+        <h2>⏰ Automated Background Jobs</h2>
+        
+        <div class="architecture-grid">
+            <div class="component-box">
+                <h3>Bill Subscriptions</h3>
+                <p>• Processes recurring billing<br>• Handles failed payments<br>• Updates next billing dates<br>• Creates Shopify orders</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>Update Raffles</h3>
+                <p>• Closes expired raffles<br>• Selects winners<br>• Sends notifications<br>• Updates raffle status</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>Sync All Inventory</h3>
+                <p>• Syncs product inventory<br>• Updates subscription items<br>• Handles out-of-stock<br>• Maintains data consistency</p>
+            </div>
+        </div>
+<!-- 
+        <div class="code-block" data-lang="javascript">
+// Billing Automation Example
+export async function billSubscriptions(filter = {}) {
+const subscriptionsToBill = await Subscription.find({
+status: 'ACTIVE',
+nextBillingDate: { $lte: new Date() },
+failedLastBilling: { $ne: true },
+...filter
+});
+
+for (const subscription of subscriptionsToBill) {
+try {
+// 1. Create Shopify order
+const order = await createShopifyOrder(subscription);
+
+  // 2. Process payment via Stripe
+  const payment = await processStripePayment(subscription);
+  
+  // 3. Update subscription record
+  await updateSubscriptionAfterBilling(subscription, order, payment);
+  
+  // 4. Schedule next billing
+  subscription.nextBillingDate = calculateNextBillingDate(subscription);
+  await subscription.save();
+  
+} catch (error) {
+  // Handle failed billing
+  await handleBillingFailure(subscription, error);
+}
+} } </div> -->
+
+        <div class="info-box">
+            <strong>Deployment:</strong> These cron jobs can be triggered manually via admin panel or scheduled externally (e.g., Heroku Scheduler).
+        </div>
+    </div>
+
+    <!-- Slide 10: Webhook Processing -->
+    <div class="slide">
+        <div class="slide-number">10 / 15</div>
+        <h2>🔗 Webhook Architecture</h2>
+        
+        <div class="flow-diagram">
+            <div class="flow-step">Webhook Received</div>
+            <div class="flow-step">Deduplication Check</div>
+            <div class="flow-step">Process Event</div>
+            <div class="flow-step">Update Database</div>
+        </div>
+
+        <div class="code-block" data-lang="javascript">
+// Webhook Deduplication Pattern
+app.post("/api/webhooks",
+async (req, res, next) => {
+const webhookId = req.headers['x-shopify-webhook-id'];
+const shop = req.headers['x-shopify-shop-domain'];
+
+// Prevent duplicate processing
+const existingWebhook = await WebhookReq.findOne({ webhookId });
+if (existingWebhook) {
+  console.log('Duplicate webhook detected, skipping');
+  res.sendStatus(200);
+  return;
+}
+
+// Record webhook for deduplication
+await WebhookReq.create({ webhookId, shop, processed: new Date() });
+next();
+},
+useShopifyApp((shopifyApp) => shopifyApp.processWebhooks({
+webhookHandlers: GDPRWebhookHandlers
+}))
+);
+
+// Stripe Webhook Handler
+app.post("/api/stripe/postcheckout", async (req, res, next) => {
+const checkout = req.body.data.object;
+
+if (checkout.metadata.raffleId) {
+await raffleCheckoutWebhookHandler(checkout);
+} else if (checkout.metadata.auctionId) {
+await auctionCheckoutWebhookHandler(checkout);
+}
+
+res.status(200).json({ success: true }); }); </div> </div>
+
+    <!-- Slide 11: Frontend Architecture -->
+    <div class="slide">
+        <div class="slide-number">11 / 15</div>
+        <h2>⚛️ Frontend Architecture</h2>
+        
+        <div class="file-tree">
+<span class="folder">frontend/</span> ├── <span class="folder">components/</span> # Reusable UI components ├── <span class="folder">pages/</span> # Route-based pages │ ├── <span class="file">Subscriptions.jsx</span> # Subscription management │ ├── <span class="file">Raffles.jsx</span> # Raffle admin │ ├── <span class="file">Auctions.jsx</span> # Auction management │ └── <span class="file">Reports.jsx</span> # Analytics dashboard ├── <span class="folder">hooks/</span> # Custom React hooks ├── <span class="file">App.jsx</span> # Main app component ├── <span class="file">Routes.jsx</span> # File-based routing └── <span class="file">Context.jsx</span> # Global state management </div>
+
+        <div class="code-block" data-lang="jsx">
+// Example: Subscription Management Page
+import { useAppQuery } from '../hooks';
+import { SubscriptionCard, LoadingSkeleton } from '../components';
+
+export default function Subscriptions() { const { data: subscriptions, isLoading, refetch } = useAppQuery({ url: '/api/subscriptions', reactQueryOptions: { onSuccess: (data) => { console.log(Loaded ${data.length} subscriptions); } } });
+
+if (isLoading) return <LoadingSkeleton />;
+
+return ( <Page title="Subscription Management"> <Layout> {subscriptions.map(sub => ( <SubscriptionCard key={sub._id} subscription={sub} onUpdate={refetch} /> ))} </Layout> </Page> ); } </div>
+
+        <div class="info-box">
+            <strong>Tech Stack:</strong> React + Shopify Polaris + App Bridge + React Query for state management and API calls.
+        </div>
+    </div>
+
+    <!-- Slide 12: Development Workflow -->
+    <div class="slide">
+        <div class="slide-number">12 / 15</div>
+        <h2>🛠️ Development Setup</h2>
+        
+        <div class="terminal">
+            # 1. Clone and install dependencies
+            git clone https://github.com/your-org/ua-master-app.git
+            cd ua-master-app
+            npm install
+        </div>
+
+        <div class="terminal">
+            # 2. Set up environment variables
+            cp .env.example .env
+            # Configure MongoDB, Shopify keys, Stripe keys
+        </div>
+
+        <div class="terminal">
+            # 3. Start development server
+            npm run dev
+            # Runs both backend and frontend with hot reload
+        </div>
+
+        <div class="config-example">
+            <h3>Required Environment Variables:</h3>
+            <pre>
+MONGODB_URI=mongodb://localhost:27017/ua-master-app SHOPIFY_API_KEY_STORE1=your_api_key SHOPIFY_API_SECRET_STORE1=your_api_secret STRIPE_SECRET_KEY=sk_test_... JWT_SECRET=your_jwt_secret USER_COUNT_TOKEN=your_user_count_token </pre> </div>
+
+        <div class="warning-box">
+            <strong>Security:</strong> Never commit .env files. Each store needs separate API credentials for multi-tenant isolation.
+        </div>
+    </div>
+
+    <!-- Slide 13: Testing Strategy -->
+    <div class="slide">
+        <div class="slide-number">13 / 15</div>
+        <h2>🧪 Testing & Debugging</h2>
+        
+        <div class="architecture-grid">
+            <div class="component-box">
+                <h3>API Testing</h3>
+                <p>• Use Shopify CLI for webhook testing<br>• Postman collections for API endpoints<br>• Test with development stores</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>Database Testing</h3>
+                <p>• MongoDB Compass for data inspection<br>• Test multi-tenant isolation<br>• Verify indexing performance</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>Integration Testing</h3>
+                <p>• Stripe test mode<br>• Shopify development stores<br>• Webhook simulation tools</p>
+            </div>
+        </div>
+
+        <div class="code-block" data-lang="javascript">
+// Debug Helpers in Development
+console.log('[DEBUG] Processing subscription for shop:', req.body.shop);
+
+// Webhook debugging
+app.post("/api/webhooks", (req, res, next) => {
+console.log('Webhook headers:', req.headers);
+console.log('Webhook body:', req.body);
+next();
+});
+
+// Database query debugging
+SubscriptionSchema.pre('save', function() {
+console.log('PRE SAVE - Subscription update for shop:', this.shop);
+});
+
+// API response debugging app.use('/api', (req, res, next) => { console.log(${req.method} ${req.path} - Shop: ${req.query.shop || 'unknown'}); next(); }); </div>
+
+        <div class="terminal">
+            # Useful debugging commands
+            
+            # Check MongoDB connections
+            mongo mongodb://localhost:27017/ua-master-app
+            
+            # Test webhook endpoints
+            shopify app dev --tunnel-url=https://your-tunnel.com
+            
+            # Monitor logs in development
+            npm run dev -- --verbose
+        </div>
+
+        <div class="info-box">
+            <strong>Common Issues:</strong> Multi-store credential conflicts, webhook duplication, session storage issues, and MongoDB connection limits in development.
+        </div>
+    </div>
+
+    <!-- Slide 14: Deployment & Production -->
+    <div class="slide">
+        <div class="slide-number">14 / 15</div>
+        <h2>🚀 Deployment Architecture</h2>
+        
+        <div class="flow-diagram">
+            <div class="flow-step">Docker Build</div>
+            <div class="flow-step">Heroku Deploy</div>
+            <div class="flow-step">MongoDB Atlas</div>
+            <div class="flow-step">Production Ready</div>
+        </div>
+
+        <div class="code-block" data-lang="dockerfile">
+Dockerfile Configuration
+FROM node:18-alpine
+
+WORKDIR /app
+
+Copy package files
+COPY package*.json ./
+RUN npm ci --only=production
+
+Copy application code
+COPY . .
+
+Build frontend
+RUN cd web/frontend && npm run build
+
+Start application
+EXPOSE 3000 CMD ["npm", "start"] </div>
+
+        <div class="config-example">
+            <h3>Production Environment Setup:</h3>
+            <pre>
+Heroku Config Vars (for each store)
+MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/ua-master-app NODE_ENV=production SHOPIFY_API_KEY_STORE1=prod_key_1 SHOPIFY_API_SECRET_STORE1=prod_secret_1 SHOPIFY_API_KEY_STORE2=prod_key_2 ... STRIPE_SECRET_KEY=sk_live_... JWT_SECRET=production_jwt_secret </pre> </div>
+
+        <div class="warning-box">
+            <strong>Production Checklist:</strong><br>
+            ✓ All .env files configured for production<br>
+            ✓ MongoDB Atlas connection strings<br>
+            ✓ Stripe live mode keys<br>
+            ✓ Webhook URLs updated in Shopify partner dashboard<br>
+            ✓ App URLs configured for production domains<br>
+            ✓ Database indexes created for performance
+        </div>
+
+        <div class="info-box">
+            <strong>Scaling Considerations:</strong> Use MongoDB connection pooling, implement Redis for session caching, set up load balancing for multiple app instances, and monitor database performance.
+        </div>
+    </div>
+
+    <!-- Slide 15: Best Practices & Troubleshooting -->
+    <div class="slide">
+        <div class="slide-number">15 / 15</div>
+        <h2>💡 Best Practices & Common Issues</h2>
+        
+        <div class="architecture-grid">
+            <div class="component-box">
+                <h3>🔒 Security</h3>
+                <p>• Always validate shop domain in requests<br>• Use HMAC verification for proxy routes<br>• Implement proper CORS policies<br>• Store sensitive data encrypted</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>📊 Performance</h3>
+                <p>• Index MongoDB queries by shop + _id<br>• Use pagination for large datasets<br>• Implement request rate limiting<br>• Cache frequently accessed data</p>
+            </div>
+            
+            <div class="component-box">
+                <h3>🐛 Debugging</h3>
+                <p>• Check webhook deduplication logs<br>• Verify shop isolation in database<br>• Monitor failed billing attempts<br>• Track API rate limit usage</p>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <h3>⚠️ Common Pitfalls</h3>
+            <p>• <strong>Mixed Store Data:</strong> Always filter by shop domain in database queries<br>
+            • <strong>Webhook Loops:</strong> Implement proper deduplication using webhook IDs<br>
+            • <strong>Session Issues:</strong> Ensure MongoDB session storage is properly configured<br>
+            • <strong>API Limits:</strong> Respect Shopify and Stripe rate limits<br>
+            • <strong>Environment Mixing:</strong> Never use production credentials in development</p>
+        </div>
+
+        <div class="code-block" data-lang="javascript">
+// Essential Debugging Patterns
+
+// 1. Always log shop context console.log([${req.body.shop}] Processing ${req.path});
+
+// 2. Validate multi-tenant isolation
+const subscriptions = await Subscription.find({
+shop: req.body.shop  // NEVER forget this filter!
+});
+
+// 3. Handle webhook failures gracefully try { await processWebhook(webhookData); } catch (error) { console.error(Webhook processing failed for ${shop}:, error); // Log but don't throw - webhook will retry }
+
+// 4. Monitor API performance const startTime = Date.now(); // ... API operation console.log(Operation took ${Date.now() - startTime}ms); </div>
+
+        <div class="info-box">
+            <h3>🔗 Useful Resources</h3>
+            <p>• <strong>Shopify API Docs:</strong> https://shopify.dev/docs<br>
+            • <strong>Stripe Documentation:</strong> https://stripe.com/docs<br>
+            • <strong>MongoDB Best Practices:</strong> https://docs.mongodb.com<br>
+            • <strong>App Bridge Guide:</strong> https://shopify.dev/docs/apps/tools/app-bridge</p>
+        </div>
+
+        <div class="terminal">
+            # Quick Commands for Development
+            
+            # Check database connection
+            node -e "const mongoose = require('mongoose'); mongoose.connect(process.env.MONGODB_URI).then(() => console.log('Connected')).catch(console.error);"
+            
+            # Test API endpoint
+            curl -H "Authorization: Bearer $TOKEN" https://your-app.com/api/subscriptions
+            
+            # Monitor logs in production
+            heroku logs --tail --app your-app-name
+        </div>
+    </div>
+</div>
+
+<!-- <div class="navigation">
+    <button class="nav-button" onclick="scrollToSlide('start')">🏠 Start</button>
+    <button class="nav-button" onclick="scrollToSlide('prev')">← Prev</button>
+    <button class="nav-button" onclick="scrollToSlide('next')">Next →</button>
+    <button class="nav-button" onclick="toggleFullscreen()">⛶ Full</button>
+</div> -->
+
+<div class="progress-bar"></div>
+
+<script>
+    let currentSlide = 1;
+    const totalSlides = 15;
+
+    function scrollToSlide(direction) {
+        if (direction === 'next' && currentSlide < totalSlides) {
+            currentSlide++;
+        } else if (direction === 'prev' && currentSlide > 1) {
+            currentSlide--;
+        } else if (direction === 'start') {
+            currentSlide = 1;
+        } else if (direction === 'next' && currentSlide === totalSlides) {
+            currentSlide = 1; // Loop back to start
+        }
+
+        const slides = document.querySelectorAll('.slide');
+        slides[currentSlide - 1].scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+        
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const progress = (currentSlide / totalSlides) * 100;
+        document.querySelector('.progress-bar').style.width = progress + '%';
+    }
+
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            e.preventDefault();
+            scrollToSlide('next');
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            scrollToSlide('prev');
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            scrollToSlide('start');
+        } else if (e.key === 'f' || e.key === 'F') {
+            e.preventDefault();
+            toggleFullscreen();
+        }
+    });
+
+    // Update current slide based on scroll position
+    window.addEventListener('scroll', function() {
+        const slides = document.querySelectorAll('.slide');
+        const scrollPosition = window.scrollY + window.innerHeight / 2;
+        
+        slides.forEach((slide, index) => {
+            const slideTop = slide.offsetTop;
+            const slideBottom = slideTop + slide.offsetHeight;
+            
+            if (scrollPosition >= slideTop && scrollPosition <= slideBottom) {
+                currentSlide = index + 1;
+                updateProgress();
+            }
+        });
+    });
+
+    // Smooth fade-in animations for code blocks and components
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Add animation to key elements
+    document.querySelectorAll('.component-box, .code-block, .data-model, .api-endpoint').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+
+    // Syntax highlighting simulation for code blocks
+    document.querySelectorAll('.code-block').forEach(block => {
+        const content = block.innerHTML;
+        
+        // Simple syntax highlighting patterns
+        const highlighted = content
+            .replace(/\b(const|let|var|function|async|await|if|else|for|while|return|import|export|class|extends)\b/g, '<span style="color: #f97583;">$1</span>')
+            .replace(/\b(true|false|null|undefined)\b/g, '<span style="color: #79b8ff;">$1</span>')
+            .replace(/"([^"]*)"/g, '<span style="color: #9ecbff;">"$1"</span>')
+            .replace(/'([^']*)'/g, '<span style="color: #9ecbff;">\'$1\'</span>')
+            .replace(/\/\/.*$/gm, '<span style="color: #6a737d;">        <!-- Slide 13: Testing Strategy -->
+    <div class="slide">
+        <div class="slide-number">13</span>')
+            .replace(/\b(\d+)\b/g, '<span style="color: #79b8ff;">$1</span>');
+        
+        block.innerHTML = highlighted;
+    });
+
+    // Add copy functionality to code blocks
+    document.querySelectorAll('.code-block').forEach(block => {
+        const copyBtn = document.createElement('button');
+        copyBtn.innerHTML = '📋';
+        copyBtn.style.cssText = `
+            position: absolute;
+            top: 0.5rem;
+            left: 1rem;
+            background: #58a6ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0.3rem 0.5rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        `;
+        
+        copyBtn.onclick = () => {
+            navigator.clipboard.writeText(block.textContent);
+            copyBtn.innerHTML = '✅';
+            setTimeout(() => copyBtn.innerHTML = '📋', 1000);
+        };
+        
+        block.style.position = 'relative';
+        block.appendChild(copyBtn);
+    });
+
+    // Initialize
+    updateProgress();
+    
+    console.log('🚀 Membership Zen App Developer Guide loaded!');
+    console.log('Navigation: Arrow keys, Space, or navigation buttons');
+    console.log('Shortcuts: Home key (start), F key (fullscreen)');
+    console.log('Features: Code copying, syntax highlighting, smooth scrolling');
+</script>
+</body> </html>
